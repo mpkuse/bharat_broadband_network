@@ -30,15 +30,32 @@ haryana_dist =  set([ x[2] for x in content if x[1] == 'Haryana'])
 ## Make JSON heirarchy
 import json
 JSON_OBJ = {}
+STATE_WISE_COUNT = {}
 for x in content :
     assert( len(x) == 5 )
+    #---
+    if x[1] not in STATE_WISE_COUNT.keys():
+        STATE_WISE_COUNT[ x[1] ] = 0
+    STATE_WISE_COUNT[ x[1] ] += 1
+
+    #----
     if x[1] not in JSON_OBJ.keys():
         JSON_OBJ[ x[1] ] = {}
 
     if x[2] not in JSON_OBJ[ x[1] ].keys():
         JSON_OBJ[ x[1] ][ x[2] ] = []
 
+    # if x[3] not in JSON_OBJ[ x[1] ][ x[2] ].keys():
+        # JSON_OBJ[ x[1] ][ x[2] ][ x[3] ] = []
+
+    # JSON_OBJ[ x[1] ][ x[2] ][ x[3] ].append( x )
     JSON_OBJ[ x[1] ][ x[2] ].append( x )
 
 with open('state_dist_hierarchy.json', 'w') as fp:
     json.dump(JSON_OBJ, fp,  indent=4)
+
+
+## Statewise count of villages
+print "## Statewise count of villages"
+for s in STATE_WISE_COUNT:
+    print   STATE_WISE_COUNT[s]
